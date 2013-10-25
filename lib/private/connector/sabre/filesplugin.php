@@ -55,6 +55,11 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 	 */
 	public function beforeGetProperties($path, Sabre_DAV_INode $node, array &$requestedProperties, array &$returnedProperties) {
 
+		// we want to send the header only on PUT
+		if ($this->server->httpRequest->getMethod() !== 'PUT' ) {
+			return;
+		}
+
 		if ($node instanceof OC_Connector_Sabre_Node) {
 
 			$fileid_propertyname = '{' . self::NS_OWNCLOUD . '}id';
